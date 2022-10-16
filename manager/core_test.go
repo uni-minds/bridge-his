@@ -16,11 +16,16 @@ import (
 	"testing"
 )
 
+const DB = "../medical-sys/tmp/database/db_his.sqlite"
+
 func TestHisManager_Query(t *testing.T) {
 	var hm HisManager
 	var data []map[string]string
-	hm.Init("../medical-sys/tmp/database/db_his.sqlite", "version2", "产妇入院登记号号码")
-	data, err := hm.Query("2016")
+	err := hm.Init(DB, "version2", "产妇入院登记号号码")
+	if err != nil {
+		t.Log(err.Error())
+	}
+	data, err = hm.Query("2016")
 	if err != nil {
 		t.Log(err.Error())
 	}
@@ -37,7 +42,10 @@ func TestHisManager_Init(t *testing.T) {
 	buf := bufio.NewReader(fp)
 
 	var hm HisManager
-	hm.Init("./data/db_his.sqlite", "version2", "产妇入院登记号号码")
+	err := hm.Init(DB, "version2", "产妇入院登记号号码")
+	if err != nil {
+		t.Log(err.Error())
+	}
 
 	var c1, c2, cMore, cNone int
 
